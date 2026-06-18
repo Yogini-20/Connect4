@@ -49,8 +49,16 @@ public class Main extends Application {
 
 		fileMenu.getItems().addAll(newGame, resetGame, separatorMenuItem, exitGame);
 
+		Menu helpMenu = new Menu("Help");
+
+		MenuItem aboutGame = new MenuItem("About Connect4");
+		SeparatorMenuItem separator = new SeparatorMenuItem();
+		MenuItem aboutMe = new MenuItem("About me");
+
+		helpMenu.getItems().addAll(aboutGame, separator, aboutMe);
+
 		MenuBar menuBar = new MenuBar();
-		menuBar.getMenus().addAll(fileMenu);
+		menuBar.getMenus().addAll(fileMenu, helpMenu);
 
 		return menuBar;
 	}
