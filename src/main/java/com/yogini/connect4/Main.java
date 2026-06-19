@@ -14,14 +14,12 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-	private Controller controller;
-
 	@Override
 	public void start(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
 		GridPane rootGridPane = fxmlLoader.load();
 
-		controller = fxmlLoader.getController(); // those method used to pass fxml data to controller. In temperature app other method wee used to do that.
+		Controller controller = fxmlLoader.getController(); // those method used to pass fxml data to controller. In temperature app other method wee used to do that.
 		controller.createPlayground();
 
 		MenuBar menuBar = createMenu();

@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
@@ -33,10 +34,38 @@ public class Controller implements Initializable {
 	public Label playerNameLabel;
 
 	public void createPlayground() {
-		Shape rectangleWithHoles = new Rectangle(COLUMNS * CIRCLE_DIAMETER, ROWS * CIRCLE_DIAMETER);  // Dimension of rectangle
+
+		Shape rectangleWithHoles = createGameStructuralGrid();
+		rootGridPane.add(rectangleWithHoles, 0, 1); // Adding the rectangleWithHoles to the Grid Pane
+	}
+
+	private Shape createGameStructuralGrid() {
+		Shape rectangleWithHoles = new Rectangle((COLUMNS + 1) * CIRCLE_DIAMETER, (ROWS + 1) * CIRCLE_DIAMETER);  // Dimension of rectangle. Adding an extra to ROW and COLUMNS providing us with margin in UI
+
+		// Create holes in rectangle
+		for (int row = 0; row < ROWS; row++) { // Nested for loop to create the rows and columns of circles. Because it is like a 2D array we use nested for loop.
+			for (int col = 0; col < COLUMNS; col++) {
+				Circle circle = getCircle(col, row);
+
+				rectangleWithHoles = Shape.subtract(rectangleWithHoles, circle); // From this(rectangleWithHoles) we want to subtract this(circle).
+			}
+		}
+
 		rectangleWithHoles.setFill(Color.WHITE);
 
-		rootGridPane.add(rectangleWithHoles, 0, 1);
+		return rectangleWithHoles;
+	}
+
+	private static Circle getCircle(int col, int row) {
+		Circle circle = new Circle();
+		circle.setRadius((double) CIRCLE_DIAMETER / 2);  // This is for one circle
+		circle.setCenterX((double) CIRCLE_DIAMETER / 2);
+		circle.setCenterY((double) CIRCLE_DIAMETER / 2);
+		circle.setSmooth(true); // Smoothing the edges of the holes
+
+		circle.setTranslateX(col * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4); // This is for multiple circle, plus 5 makes some space between each of the circles
+		circle.setTranslateY(row * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4); // The + CIRC_DIA / 4 is actually 20, it gives some space on the left and top
+		return circle;
 	}
 
 	@Override
