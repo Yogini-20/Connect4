@@ -11,6 +11,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -38,8 +40,11 @@ public class Controller implements Initializable {
 		Shape rectangleWithHoles = createGameStructuralGrid();
 		rootGridPane.add(rectangleWithHoles, 0, 1); // Adding the rectangleWithHoles to the Grid Pane
 
-		Rectangle rectangle = createClickableColumn();
-		rootGridPane.add(rectangle, 0, 1);
+		List<Rectangle> rectangleList = createClickableColumn(); // Since the rectangleList contains all the rectangle so we again need to use for loop to add all this rectangle within our rootGridPane.
+		for (Rectangle rectangle: rectangleList) {
+			rootGridPane.add(rectangle, 0, 1);
+		}
+
 	}
 
 	private Shape createGameStructuralGrid() {
@@ -71,13 +76,23 @@ public class Controller implements Initializable {
 		return circle;
 	}
 
-	private Rectangle createClickableColumn() {
+	private List<Rectangle> createClickableColumn() {
 
-		Rectangle rectangle = new Rectangle(CIRCLE_DIAMETER, (ROWS + 1) * CIRCLE_DIAMETER);
-		rectangle.setFill(Color.BLUE);
-		rectangle.setTranslateX((double) CIRCLE_DIAMETER / 4);  // applying margin with TranslateAnimation, so the blue rectangle appears exactly on top of the holes
+		List<Rectangle> rectangleList = new ArrayList<>();
 
-		return rectangle;
+		for (int col = 0; col < COLUMNS; col++){
+			Rectangle rectangle = new Rectangle(CIRCLE_DIAMETER, (ROWS + 1) * CIRCLE_DIAMETER);
+			rectangle.setFill(Color.TRANSPARENT);
+			rectangle.setTranslateX(col * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4);  // applying margin with TranslateAnimation, so the blue rectangle appears exactly on top of the holes.
+
+			// Rectangles with Hover Effect - means changing the appearance of a UI component when the mouse pointer is placed over it.
+			rectangle.setOnMouseEntered(event -> rectangle.setFill(Color.valueOf("#eeeeee26")));
+			rectangle.setOnMouseExited(event -> rectangle.setFill(Color.TRANSPARENT));
+
+			rectangleList.add(rectangle);
+		}
+
+		return rectangleList;
 	}
 
 	@Override
