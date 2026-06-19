@@ -22,6 +22,7 @@ public class Main extends Application {
 		GridPane rootGridPane = fxmlLoader.load();
 
 		controller = fxmlLoader.getController(); // those method used to pass fxml data to controller. In temperature app other method wee used to do that.
+		controller.createPlayground();
 
 		MenuBar menuBar = createMenu();
 		menuBar.prefWidthProperty().bind(stage.widthProperty()); // To cover all the space of the menuPane.

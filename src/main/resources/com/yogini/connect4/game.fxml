@@ -4,18 +4,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane fx:id="rootGridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #D9F7F0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yogini.connect4.Controller">
+<GridPane fx:id="rootGridPane" style="-fx-background-color: #D9F7F0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yogini.connect4.Controller">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="392.0" minWidth="10.0" prefWidth="374.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="226.0" />
+        <ColumnConstraints />
+        <ColumnConstraints maxWidth="298.0" minWidth="225.0" prefWidth="225.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="194.4" minHeight="10.0" prefHeight="23.2" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="381.4000057220459" minHeight="10.0" prefHeight="377.6" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints />
     </rowConstraints>
-    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" />
-   <Pane fx:id="insertedDiscsPane" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-    <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #2B3B4C;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+    <Pane GridPane.columnSpan="2" />
+    <!-- Game Board Area -->
+   <Pane fx:id="insertedDiscsPane" prefHeight="400.0" prefWidth="200.0" GridPane.rowIndex="1" />
+    <!-- Right Side Panel -->
+    <VBox style="-fx-background-color: #2B3B4C;" GridPane.columnIndex="1" GridPane.rowIndex="1">
         <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
         <Label fx:id="playerNameLabel" alignment="CENTER" prefHeight="43.0" prefWidth="305.0" text="Player One" textFill="WHITE">
            <font>
