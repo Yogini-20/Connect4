@@ -89,10 +89,34 @@ public class Controller implements Initializable {
 			rectangle.setOnMouseEntered(event -> rectangle.setFill(Color.valueOf("#eeeeee26")));
 			rectangle.setOnMouseExited(event -> rectangle.setFill(Color.TRANSPARENT));
 
+			// Click event
+			final int column = col;
+			rectangle.setOnMouseClicked(event -> {
+				insertDisc(new Disc(isPlayerOneTurn), column);
+			});
+
 			rectangleList.add(rectangle);
 		}
 
 		return rectangleList;
+	}
+
+	private static void insertDisc(Disc disc, int column) {
+
+	}
+
+	private static class Disc extends Circle {
+
+		private final boolean isPlayerOneMove;
+
+		public Disc(boolean isPlayerOneMove) {  // Constructor
+
+			this.isPlayerOneMove = isPlayerOneMove;
+			setRadius((double) CIRCLE_DIAMETER / 2);
+			setFill(isPlayerOneMove ? Color.valueOf(discColor1) : Color.valueOf(discColor2));
+			setCenterX((double) CIRCLE_DIAMETER / 2);
+			setCenterY((double) CIRCLE_DIAMETER / 2);
+		}
 	}
 
 	@Override
