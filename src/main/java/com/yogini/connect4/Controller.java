@@ -37,6 +37,9 @@ public class Controller implements Initializable {
 
 		Shape rectangleWithHoles = createGameStructuralGrid();
 		rootGridPane.add(rectangleWithHoles, 0, 1); // Adding the rectangleWithHoles to the Grid Pane
+
+		Rectangle rectangle = createClickableColumn();
+		rootGridPane.add(rectangle, 0, 1);
 	}
 
 	private Shape createGameStructuralGrid() {
@@ -66,6 +69,15 @@ public class Controller implements Initializable {
 		circle.setTranslateX(col * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4); // This is for multiple circle, plus 5 makes some space between each of the circles
 		circle.setTranslateY(row * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4); // The + CIRC_DIA / 4 is actually 20, it gives some space on the left and top
 		return circle;
+	}
+
+	private Rectangle createClickableColumn() {
+
+		Rectangle rectangle = new Rectangle(CIRCLE_DIAMETER, (ROWS + 1) * CIRCLE_DIAMETER);
+		rectangle.setFill(Color.BLUE);
+		rectangle.setTranslateX((double) CIRCLE_DIAMETER / 4);  // applying margin with TranslateAnimation, so the blue rectangle appears exactly on top of the holes
+
+		return rectangle;
 	}
 
 	@Override
