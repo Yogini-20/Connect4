@@ -28,6 +28,8 @@ public class Controller implements Initializable {
 
 	private boolean isPlayerOneTurn = true;
 
+	private Disc[][] insertedDiscsArray = new Disc[ROWS][COLUMNS]; // For Structural Changes: for the developer
+
 	@FXML
 	public GridPane rootGridPane;
 	@FXML
@@ -101,8 +103,12 @@ public class Controller implements Initializable {
 		return rectangleList;
 	}
 
-	private static void insertDisc(Disc disc, int column) {
+	private void insertDisc(Disc disc, int column) {
 
+		insertedDiscsArray[0][column] = disc;
+		insertedDiscsPane.getChildren().add(disc);
+
+		disc.setTranslateX(column * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4);
 	}
 
 	private static class Disc extends Circle {
