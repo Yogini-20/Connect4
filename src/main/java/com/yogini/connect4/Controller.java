@@ -1,5 +1,6 @@
 package com.yogini.connect4;
 
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -9,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -109,6 +111,10 @@ public class Controller implements Initializable {
 		insertedDiscsPane.getChildren().add(disc);
 
 		disc.setTranslateX(column * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4);
+
+		TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.5), disc); // This disc fall from top to bottom
+		translateTransition.setToY(5 * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4);
+		translateTransition.play();
 	}
 
 	private static class Disc extends Circle {
