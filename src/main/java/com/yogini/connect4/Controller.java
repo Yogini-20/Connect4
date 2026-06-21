@@ -202,7 +202,8 @@ public class Controller implements Initializable {
 	}
 
 	private void gameOver() {
-
+		String winner = isPlayerOneTurn ? PLAYER_ONE : PLAYER_TWO;
+		System.out.println("Winner is " + winner);
 	}
 
 	private static class Disc extends Circle {
