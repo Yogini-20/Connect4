@@ -107,14 +107,46 @@ public class Controller implements Initializable {
 
 	private void insertDisc(Disc disc, int column) {
 
-		insertedDiscsArray[0][column] = disc;
-		insertedDiscsPane.getChildren().add(disc);
+		// To insert a disc at specific position
+		int row = ROWS - 1; // Counter variable - To determine position of our new disc.
+		while (row > 0){ // which row is empty within our column
+			if (insertedDiscsArray[row][column] == null) { // To check emptiness.
+				break;
+			}
+			row--;
+		}
+		if (row < 0) { // If row actually full. If it is full, we can't insert anymore disc.
+			return;
+		}
 
+		insertedDiscsArray[row][column] = disc;   // For structural changes: For developers
+		insertedDiscsPane.getChildren().add(disc);  // For visual changes: For players
+
+		// This for X-axis
 		disc.setTranslateX(column * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4);
 
+		// This for Y-axis.
+		int currentRow = row;
 		TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.5), disc); // This disc fall from top to bottom
-		translateTransition.setToY(5 * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4);
+		translateTransition.setToY(row * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4);
+		translateTransition.setOnFinished(event -> {  // When disc is placed at correct position we are toggling between player1 and player2
+
+			// When the game ends
+			if (gameEnded(currentRow, column)){
+
+			}
+
+			isPlayerOneTurn = !isPlayerOneTurn;  // Toggle between the players. isPlayerOneTurn now become player 2 turn. Now player2 got the right side to play his turn. If previously the player1 has inserted the disc then now it is turned for player2 & vice versa, change color of disc
+
+			// To display whose turn is this
+			playerNameLabel.setText(isPlayerOneTurn? PLAYER_ONE : PLAYER_TWO);
+		});
 		translateTransition.play();
+	}
+
+	private boolean gameEnded(int row, int column) {  // Where the last disc inserted.
+
+		return false;
 	}
 
 	private static class Disc extends Circle {
