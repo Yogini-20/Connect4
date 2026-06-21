@@ -3,6 +3,7 @@ package com.yogini.connect4;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -16,6 +17,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Controller implements Initializable {
 
@@ -126,14 +129,18 @@ public class Controller implements Initializable {
 		disc.setTranslateX(column * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4);
 
 		// This for Y-axis.
-		int currentRow = row;
+		TranslateTransition translateTransition = getTranslateTransitionOnYaxis(disc, column, row);
+		translateTransition.play();
+	}
+
+	private TranslateTransition getTranslateTransitionOnYaxis(Disc disc, int column, int currentRow) {
 		TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.5), disc); // This disc fall from top to bottom
-		translateTransition.setToY(row * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4);
+		translateTransition.setToY(currentRow * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4);
 		translateTransition.setOnFinished(event -> {  // When disc is placed at correct position we are toggling between player1 and player2
 
 			// When the game ends
 			if (gameEnded(currentRow, column)){
-
+				gameOver();
 			}
 
 			isPlayerOneTurn = !isPlayerOneTurn;  // Toggle between the players. isPlayerOneTurn now become player 2 turn. Now player2 got the right side to play his turn. If previously the player1 has inserted the disc then now it is turned for player2 & vice versa, change color of disc
@@ -141,12 +148,27 @@ public class Controller implements Initializable {
 			// To display whose turn is this
 			playerNameLabel.setText(isPlayerOneTurn? PLAYER_ONE : PLAYER_TWO);
 		});
-		translateTransition.play();
+		return translateTransition;
 	}
 
 	private boolean gameEnded(int row, int column) {  // Where the last disc inserted.
 
+		// Vertical points(holes).
+
+		List<Point2D> verticalPoints = IntStream.rangeClosed(row - 3, row + 3) // Range of row values = 0,1,2,3,4,5  A small example: Player has inserted his last disc at row=2, column=3
+				.mapToObj(r -> new Point2D(r, column))    // Index of each element present in column [row][column]: (0,3), (1,3), (2,3), (3,3), (4,3), (5,3) --> in JAVA : Point2D Class that hold the value in terms of x and y coordinate
+				.collect(Collectors.toList()); // r variable because row value will constantly change
+
+		List<Point2D> horizontalPoints = IntStream.rangeClosed(column - 3, column + 3)
+				.mapToObj(c -> new Point2D(row, c)) // The value of row will be constant
+				.collect(Collectors.toList());
+
+
 		return false;
+	}
+
+	private void gameOver() {
+
 	}
 
 	private static class Disc extends Circle {
