@@ -112,8 +112,8 @@ public class Controller implements Initializable {
 
 		// To insert a disc at specific position
 		int row = ROWS - 1; // Counter variable - To determine position of our new disc.
-		while (row > 0){ // which row is empty within our column
-			if (insertedDiscsArray[row][column] == null) { // To check emptiness.
+		while (row >= 0){ // which row is empty within our column
+			if (getDiscIfPresent(row, column) == null) { // To check emptiness.
 				break;
 			}
 			row--;
@@ -163,8 +163,42 @@ public class Controller implements Initializable {
 				.mapToObj(c -> new Point2D(row, c)) // The value of row will be constant
 				.collect(Collectors.toList());
 
+		boolean isEnded = checkCombinations(verticalPoints) || checkCombinations(horizontalPoints);
 
+		return isEnded;
+
+	}
+
+	// Check out possible combinations
+	private boolean checkCombinations(List<Point2D> points) {
+
+		int chain = 0;
+
+		for ( Point2D point : points) {
+
+			int rowIndexForArray = (int) point.getX(); // Get the row index form point object
+			int columnIndexForArray = (int) point.getY();
+
+			Disc disc = getDiscIfPresent(rowIndexForArray, columnIndexForArray);
+
+			if(disc != null && disc.isPlayerOneMove == isPlayerOneTurn) { // If the last inserted disc belongs to the current player
+
+				chain++;
+				if (chain == 4) {
+					return true;  // Return to the gameEnded method
+				}
+			} else {
+				chain = 0;
+			}
+		}
 		return false;
+	}
+
+	private Disc getDiscIfPresent(int rowIndexForArray, int columnIndexForArray) {       // To prevent ArrayOutOfBoundException
+		if (rowIndexForArray >= ROWS || rowIndexForArray < 0 || columnIndexForArray >= COLUMNS || columnIndexForArray < 0) // If row or column index is invalid
+			return null;
+
+		return insertedDiscsArray[rowIndexForArray][columnIndexForArray];
 	}
 
 	private void gameOver() {
