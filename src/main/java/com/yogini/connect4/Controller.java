@@ -4,6 +4,8 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -137,11 +139,9 @@ public class Controller implements Initializable {
 		TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.5), disc); // This disc fall from top to bottom
 		translateTransition.setToY(currentRow * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4);
 		translateTransition.setOnFinished(event -> {  // When disc is placed at correct position we are toggling between player1 and player2
-
 			// When the game ends
 			if (gameEnded(currentRow, column)){
 				gameOver();
-				return;
 			}
 
 			isPlayerOneTurn = !isPlayerOneTurn;  // Toggle between the players. isPlayerOneTurn now become player 2 turn. Now player2 got the right side to play his turn. If previously the player1 has inserted the disc then now it is turned for player2 & vice versa, change color of disc
@@ -218,6 +218,17 @@ public class Controller implements Initializable {
 	private void gameOver() {
 		String winner = isPlayerOneTurn ? PLAYER_ONE : PLAYER_TWO;
 		System.out.println("Winner is " + winner);
+
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Connect Four");
+		alert.setHeaderText("The Winner is " + winner);
+		alert.setContentText("Want to play again? ");
+
+		ButtonType yesBtn = new ButtonType("Yes");
+		ButtonType noBtn = new ButtonType("No, Exit");
+		alert.getButtonTypes().setAll(yesBtn, noBtn);
+		alert.show();
+
 	}
 
 	private static class Disc extends Circle {
