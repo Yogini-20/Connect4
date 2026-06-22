@@ -46,6 +46,8 @@ public class Controller implements Initializable {
 	@FXML
 	public Label playerNameLabel;
 
+	private boolean isAllowedToInsert = true;   // Flag to avoid same color disc being added multiple times.
+
 	public void createPlayground() {
 
 		Shape rectangleWithHoles = createGameStructuralGrid();
@@ -103,7 +105,10 @@ public class Controller implements Initializable {
 			// Click event
 			final int column = col;
 			rectangle.setOnMouseClicked(event -> {
-				insertDisc(new Disc(isPlayerOneTurn), column);
+				if(isAllowedToInsert) {
+					isAllowedToInsert = false; // When disc is being dropped then no more disc will be inserted
+					insertDisc(new Disc(isPlayerOneTurn), column);
+				}
 			});
 
 			rectangleList.add(rectangle);
@@ -141,6 +146,8 @@ public class Controller implements Initializable {
 		TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.5), disc); // This disc fall from top to bottom
 		translateTransition.setToY(currentRow * (CIRCLE_DIAMETER + 5) + (double) CIRCLE_DIAMETER / 4);
 		translateTransition.setOnFinished(event -> {  // When disc is placed at correct position we are toggling between player1 and player2
+
+			isAllowedToInsert = true;  // Finally, when disc is dropped allow next player to insert disc.
 			// When the game ends
 			if (gameEnded(currentRow, column)){
 				gameOver();
