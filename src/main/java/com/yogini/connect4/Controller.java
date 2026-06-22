@@ -141,6 +141,7 @@ public class Controller implements Initializable {
 			// When the game ends
 			if (gameEnded(currentRow, column)){
 				gameOver();
+				return;
 			}
 
 			isPlayerOneTurn = !isPlayerOneTurn;  // Toggle between the players. isPlayerOneTurn now become player 2 turn. Now player2 got the right side to play his turn. If previously the player1 has inserted the disc then now it is turned for player2 & vice versa, change color of disc
@@ -151,8 +152,8 @@ public class Controller implements Initializable {
 		return translateTransition;
 	}
 
-	private boolean gameEnded(int row, int column) {  // Where the last disc inserted.
-
+	private boolean gameEnded(int row, int column) {
+		// Where the last disc inserted.
 		// Vertical points(holes).
 
 		List<Point2D> verticalPoints = IntStream.rangeClosed(row - 3, row + 3) // Range of row values = 0,1,2,3,4,5  A small example: Player has inserted his last disc at row=2, column=3
@@ -163,7 +164,19 @@ public class Controller implements Initializable {
 				.mapToObj(c -> new Point2D(row, c)) // The value of row will be constant
 				.collect(Collectors.toList());
 
-		boolean isEnded = checkCombinations(verticalPoints) || checkCombinations(horizontalPoints);
+		// Checking Diagonals
+		Point2D startPoint1 = new Point2D(row - 3, column + 3);   // Particular point
+		List<Point2D> diagonal1Points = IntStream.rangeClosed(0, 6)
+				.mapToObj(i -> startPoint1.add(i, -i))
+				.collect(Collectors.toList());
+
+		Point2D startPoint2 = new Point2D(row - 3, column - 3);
+		List<Point2D> diagonal2Points = IntStream.rangeClosed(0, 6)
+				.mapToObj(i -> startPoint2.add(i, i))
+				.collect(Collectors.toList());
+
+		boolean isEnded = checkCombinations(verticalPoints) || checkCombinations(horizontalPoints)
+				|| checkCombinations(diagonal1Points) || checkCombinations(diagonal2Points);
 
 		return isEnded;
 
@@ -172,6 +185,7 @@ public class Controller implements Initializable {
 	// Check out possible combinations
 	private boolean checkCombinations(List<Point2D> points) {
 
+		// Checking 4 combination of chain
 		int chain = 0;
 
 		for ( Point2D point : points) {
@@ -188,10 +202,10 @@ public class Controller implements Initializable {
 					return true;  // Return to the gameEnded method
 				}
 			} else {
-				chain = 0;
+				chain = 0;  // Then again start fresh with int chain = 0; and from here (int rowIndexForArray = (int) point.getX(); )
 			}
 		}
-		return false;
+		return false;  // Worst case - If we're not getting any chain then simply return false.
 	}
 
 	private Disc getDiscIfPresent(int rowIndexForArray, int columnIndexForArray) {       // To prevent ArrayOutOfBoundException
