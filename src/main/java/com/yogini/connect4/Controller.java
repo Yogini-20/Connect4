@@ -245,7 +245,7 @@ public class Controller implements Initializable {
 
 	}
 
-	private void resetGame() {
+	public void resetGame() {
 
 		insertedDiscsPane.getChildren().clear();    // Visually, Remove all Inserted Disc from Pane
 

@@ -14,12 +14,14 @@ import java.io.IOException;
 
 public class Main extends Application {
 
+	private Controller controller;
+
 	@Override
 	public void start(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
 		GridPane rootGridPane = fxmlLoader.load();
 
-		Controller controller = fxmlLoader.getController(); // those method used to pass fxml data to controller. In temperature app other method wee used to do that.
+		controller = fxmlLoader.getController(); // those method used to pass fxml data to controller. In temperature app other method wee used to do that.
 		controller.createPlayground();
 
 		MenuBar menuBar = createMenu();
@@ -41,9 +43,9 @@ public class Main extends Application {
 		Menu fileMenu = new Menu("File");
 
 		MenuItem newGame = new MenuItem("New game");
-		newGame.setOnAction(event -> resetGame());
+		newGame.setOnAction(event -> controller.resetGame());
 		MenuItem resetGame = new MenuItem("Reset game");
-		resetGame.setOnAction(event -> resetGame());
+		resetGame.setOnAction(event -> controller.resetGame());
 		SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
 		MenuItem exitGame = new MenuItem("Exit game");
 		exitGame.setOnAction(event -> exitGame());
@@ -89,7 +91,4 @@ public class Main extends Application {
 		System.exit(0);
 	}
 
-	private void resetGame() {
-
-	}
 }
