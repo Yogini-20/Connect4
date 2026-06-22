@@ -247,6 +247,18 @@ public class Controller implements Initializable {
 
 	private void resetGame() {
 
+		insertedDiscsPane.getChildren().clear();    // Visually, Remove all Inserted Disc from Pane
+
+		for (int row = 0; row < insertedDiscsArray.length; row++) { // Structurally, Make all elements of insertedDiscsArray[][] to null
+			for (int col = 0; col < insertedDiscsArray[row].length; col++) {
+				insertedDiscsArray[row][col] = null;
+			}
+		}
+
+		isPlayerOneTurn = true; // Let player1 start the game
+		playerNameLabel.setText(PLAYER_ONE);
+
+		createPlayground(); // Prepare a fresh playground
 	}
 
 	private static class Disc extends Circle {
