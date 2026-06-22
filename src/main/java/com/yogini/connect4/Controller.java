@@ -1,6 +1,7 @@
 package com.yogini.connect4;
 
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -18,6 +19,7 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -227,7 +229,23 @@ public class Controller implements Initializable {
 		ButtonType yesBtn = new ButtonType("Yes");
 		ButtonType noBtn = new ButtonType("No, Exit");
 		alert.getButtonTypes().setAll(yesBtn, noBtn);
-		alert.show();
+
+		// This statement will actually ensure that all the enclosing code will be executed only after the animation has ended.
+		Platform.runLater(()-> {   // Helps us to resolve IllegalStateException.
+			Optional<ButtonType> btnClicked = alert.showAndWait();
+			if (btnClicked.isPresent() && btnClicked.get() == yesBtn) { // without isPresent() the app can crash. It is shown in warning by IntelliJ IDEA
+				// ... user chose YES so RESET the game
+				resetGame();
+			} else {
+				// ... user chose NO ..... so Exit the Game
+				Platform.exit();
+				System.exit(0);
+			}
+		});
+
+	}
+
+	private void resetGame() {
 
 	}
 
