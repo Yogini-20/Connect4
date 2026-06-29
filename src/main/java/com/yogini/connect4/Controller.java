@@ -55,6 +55,10 @@ public class Controller implements Initializable {
 
 	public void createPlayground() {
 
+		// Run this after the JavaFX UI has finished loading.
+		// It automatically gives keyboard focus to the "playerOneTextField".
+		Platform.runLater(() -> playerOneTextField.requestFocus());
+
 		Shape rectangleWithHoles = createGameStructuralGrid();
 		rootGridPane.add(rectangleWithHoles, 0, 1); // Adding the rectangleWithHoles to the Grid Pane
 
@@ -63,6 +67,15 @@ public class Controller implements Initializable {
 			rootGridPane.add(rectangle, 0, 1);
 		}
 
+		setNamesButton.setOnAction(event -> {
+
+			// Get the names entered by the players.
+			PLAYER_ONE = playerOneTextField.getText();
+			PLAYER_TWO = playerTwoTextField.getText();
+
+			// Display the name of the player whose turn it currently is.
+			playerNameLabel.setText(isPlayerOneTurn ? PLAYER_ONE : PLAYER_TWO);
+		});
 	}
 
 	private Shape createGameStructuralGrid() {
