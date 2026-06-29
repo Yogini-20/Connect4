@@ -5,9 +5,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -34,6 +32,13 @@ public class Controller implements Initializable {
 
 	private static String PLAYER_ONE = "Player One";
 	private static String PLAYER_TWO = "Player Two";
+
+	@FXML
+	public TextField playerOneTextField;
+	@FXML
+	public TextField playerTwoTextField;
+	@FXML
+	public Button setNamesButton;
 
 	private boolean isPlayerOneTurn = true;
 
