@@ -53,6 +53,8 @@ public class Controller implements Initializable {
 
 	private boolean isAllowedToInsert = true;   // Flag to avoid same color disc being added multiple times.
 
+	private boolean isGameStarted = false;  // A boolean flag that indicates checks whether the game has started or not.
+
 	public void createPlayground() {
 
 		// Run this after the JavaFX UI has finished loading.
@@ -69,12 +71,30 @@ public class Controller implements Initializable {
 
 		setNamesButton.setOnAction(event -> {
 
-			// Get the names entered by the players.
-			PLAYER_ONE = playerOneTextField.getText();
-			PLAYER_TWO = playerTwoTextField.getText();
+			// Check if both player names are entered
+			if (playerOneTextField.getText().trim().isEmpty() ||
+					playerTwoTextField.getText().trim().isEmpty()) {
 
-			// Display the name of the player whose turn it currently is.
+				// Show warning if any name is missing
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setTitle("Connect Four");
+				alert.setHeaderText("Player names are required.");
+				alert.setContentText("Please enter names for both players before starting the game.");
+				alert.show();
+
+				return;
+			}
+
+			// Get the names entered by the players.
+			PLAYER_ONE = playerOneTextField.getText().trim();
+			PLAYER_TWO = playerTwoTextField.getText().trim();
+
+			// Display the current player's name
 			playerNameLabel.setText(isPlayerOneTurn ? PLAYER_ONE : PLAYER_TWO);
+
+			// Allow the game to start
+			isGameStarted = true;
+
 		});
 	}
 
@@ -123,8 +143,20 @@ public class Controller implements Initializable {
 			// Click event
 			final int column = col;
 			rectangle.setOnMouseClicked(event -> {
-				if(isAllowedToInsert) {
-					isAllowedToInsert = false; // When disc is being dropped then no more disc will be inserted
+
+				// Do not allow disc insertion until the game starts
+				if (!isGameStarted) {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Connect Four");
+					alert.setHeaderText("Game not started");
+					alert.setContentText("Please enter both player names and click 'Set Names'.");
+					alert.show();
+					return;
+				}
+
+				// Insert a disc only if another disc is not already falling
+				if (isAllowedToInsert) {
+					isAllowedToInsert = false;  // When disc is being dropped then no more disc will be inserted
 					insertDisc(new Disc(isPlayerOneTurn), column);
 				}
 			});
@@ -202,10 +234,8 @@ public class Controller implements Initializable {
 				.mapToObj(i -> startPoint2.add(i, i))
 				.collect(Collectors.toList());
 
-		boolean isEnded = checkCombinations(verticalPoints) || checkCombinations(horizontalPoints)
+		return checkCombinations(verticalPoints) || checkCombinations(horizontalPoints)
 				|| checkCombinations(diagonal1Points) || checkCombinations(diagonal2Points);
-
-		return isEnded;
 
 	}
 
