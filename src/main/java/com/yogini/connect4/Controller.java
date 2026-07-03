@@ -310,10 +310,23 @@ public class Controller implements Initializable {
 			}
 		}
 
-		isPlayerOneTurn = true; // Let player1 start the game
-		playerNameLabel.setText(PLAYER_ONE);
+		// Clear player names from text fields
+		playerOneTextField.clear();
+		playerTwoTextField.clear();
 
-		createPlayground(); // Prepare a fresh playground
+		// Reset stored player names
+		PLAYER_ONE = "Player One";
+		PLAYER_TWO = "Player Two";
+
+		isPlayerOneTurn = true; // Let player1 start the game
+		isGameStarted = false;
+		isAllowedToInsert = true;
+
+		// Clear current player label
+		playerNameLabel.setText("Player One");
+
+		// Put cursor in first text field
+		playerOneTextField.requestFocus();
 	}
 
 	private static class Disc extends Circle {
@@ -332,6 +345,6 @@ public class Controller implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		createPlayground(); // Prepare a fresh playground
 	}
 }
