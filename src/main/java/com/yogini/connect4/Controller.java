@@ -15,10 +15,7 @@ import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -42,7 +39,7 @@ public class Controller implements Initializable {
 
 	private boolean isPlayerOneTurn = true;
 
-	private Disc[][] insertedDiscsArray = new Disc[ROWS][COLUMNS]; // For Structural Changes: for the developer
+	private final Disc[][] insertedDiscsArray = new Disc[ROWS][COLUMNS]; // For Structural Changes: for the developer
 
 	@FXML
 	public GridPane rootGridPane;
@@ -304,10 +301,8 @@ public class Controller implements Initializable {
 
 		insertedDiscsPane.getChildren().clear();    // Visually, Remove all Inserted Disc from Pane
 
-		for (int row = 0; row < insertedDiscsArray.length; row++) { // Structurally, Make all elements of insertedDiscsArray[][] to null
-			for (int col = 0; col < insertedDiscsArray[row].length; col++) {
-				insertedDiscsArray[row][col] = null;
-			}
+		for (Disc[] discs : insertedDiscsArray) { // Structurally, Make all elements of insertedDiscsArray[][] to null
+			Arrays.fill(discs, null);
 		}
 
 		// Clear player names from text fields

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" prefHeight="560" prefWidth="865" spacing="20" style="-fx-background-color:#D9F7F0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yogini.connect4.SplashController">
+
+    <ImageView fitHeight="225" fitWidth="542.0" preserveRatio="true">
+        <Image url="https://i.pinimg.com/736x/48/bf/59/48bf59dafb0cf9196323762a46226bcc.jpg" />
+    </ImageView>
+
+    <Label style="-fx-font-size:32px;-fx-font-weight:bold;" text="Connect Four" />
+
+    <Label text="Loading..." />
+</VBox>

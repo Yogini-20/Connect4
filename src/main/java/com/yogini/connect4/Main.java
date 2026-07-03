@@ -18,7 +18,33 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
+
+		FXMLLoader splashLoader = new FXMLLoader(getClass().getResource("splash-view.fxml"));
+		Scene splashScene = new Scene(splashLoader.load());
+
+		stage.setTitle("Connect 4");
+		stage.setScene(splashScene);
+		stage.setResizable(false);
+		stage.show();
+
+		// Wait 3 seconds, then load the game
+		javafx.animation.PauseTransition pause =
+				new javafx.animation.PauseTransition(javafx.util.Duration.seconds(2));
+
+		pause.setOnFinished(event -> {
+			try {
+				loadGame(stage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+
+		pause.play();
+	}
+
+	private void loadGame(Stage stage) throws IOException {
+
+		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game-view.fxml"));
 		GridPane rootGridPane = fxmlLoader.load();
 
 		controller = fxmlLoader.getController(); // those method used to pass fxml data to controller. In temperature app other method wee used to do that.
@@ -36,8 +62,8 @@ public class Main extends Application {
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.show();
-	}
 
+	}
 	private MenuBar createMenu() {
 
 		Menu fileMenu = new Menu("File");
