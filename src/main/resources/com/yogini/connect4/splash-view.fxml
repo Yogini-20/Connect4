@@ -12,5 +12,5 @@
 
     <Label style="-fx-font-size:32px;-fx-font-weight:bold;" text="Connect Four" />
 
-    <Label text="Loading..." />
+    <ProgressIndicator maxHeight="31.0" maxWidth="70.0" minHeight="20.0" minWidth="60.0" prefHeight="31.0" prefWidth="70.0" translateX="-10.0" translateY="10.0" />
 </VBox>
